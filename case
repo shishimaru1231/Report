@@ -1,177 +1,376 @@
-import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-
-export default function TimeCrowdCasesChart() {
-  // 業界別データ
-  const industryData = [
-    { name: 'ITサービス・Web制作', value: 10, color: '#3B82F6' },
-    { name: 'BPO・人材サービス', value: 3, color: '#10B981' },
-    { name: 'コンサルティング', value: 3, color: '#F59E0B' },
-    { name: '士業（法律・社労士）', value: 2, color: '#EF4444' },
-    { name: 'クリエイティブ', value: 1, color: '#8B5CF6' },
-    { name: '食品・飲料', value: 1, color: '#EC4899' },
-    { name: 'スポーツ・メディア', value: 1, color: '#06B6D4' },
-    { name: '金融（VC）', value: 1, color: '#84CC16' },
-  ];
-
-  // 企業リスト
-  const companies = [
-    { name: 'キリンホールディングス', industry: '食品・飲料', type: '上場' },
-    { name: 'GMOペパボ', industry: 'ITサービス', type: '上場' },
-    { name: 'レバレジーズ', industry: '人材サービス', type: '大手' },
-    { name: 'カラダノート', industry: 'ITサービス', type: '上場' },
-    { name: 'GVA法律事務所', industry: '士業', type: '中堅' },
-    { name: 'ワークスビジネスサービス', industry: 'BPO', type: '大手' },
-    { name: 'スカイアーチネットワークス', industry: 'ITサービス', type: '中堅' },
-    { name: 'スパイスファクトリー', industry: 'ITサービス', type: '中堅' },
-    { name: 'SORA', industry: 'コンサルティング', type: '中小' },
-    { name: 'CloudQ', industry: 'ITサービス', type: '中小' },
-    { name: 'フォトラクション', industry: 'ITサービス', type: '中堅' },
-    { name: 'スピカデザイン', industry: 'Web制作', type: '中小' },
-    { name: 'SERENDEC', industry: 'Web制作', type: '中小' },
-    { name: 'デザインスタジオ・エル', industry: 'Webデザイン', type: '中小' },
-    { name: 'SACCSY', industry: 'コンサルティング', type: '中小' },
-    { name: 'ゴルフダイジェスト・オンライン', industry: 'スポーツ・メディア', type: '上場' },
-    { name: 'ライフタイムベンチャーズ', industry: '金融', type: '中小' },
-    { name: 'Web Factor', industry: 'ITサービス', type: '中小' },
-    { name: 'ヴァンテージIT', industry: 'ITサービス', type: '中小' },
-    { name: 'タノシナル', industry: 'クリエイティブ', type: '中小' },
-    { name: 'パーソルテンプスタッフ', industry: '人材サービス', type: '上場' },
-    { name: 'Flucle（社労士）', industry: '士業', type: '中小' },
-  ];
-
-  const totalCases = 22;
-
-  return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-6xl mx-auto">
-        {/* ヘッダー */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl p-6 mb-6 text-white">
-          <h1 className="text-2xl font-bold mb-2">TimeCrowd 公開事例サマリー</h1>
-          <p className="text-blue-100">投資家向けトラクション資料</p>
-        </div>
-
-        {/* KPI カード */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <p className="text-gray-500 text-sm mb-1">公開事例数</p>
-            <p className="text-4xl font-bold text-blue-600">{totalCases}<span className="text-lg text-gray-400 ml-1">社</span></p>
-            <p className="text-xs text-gray-400 mt-2">※サイト表記では29件</p>
-          </div>
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <p className="text-gray-500 text-sm mb-1">業界カバレッジ</p>
-            <p className="text-4xl font-bold text-green-600">8<span className="text-lg text-gray-400 ml-1">業界</span></p>
-            <p className="text-xs text-gray-400 mt-2">多様な業界で導入実績</p>
-          </div>
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <p className="text-gray-500 text-sm mb-1">上場企業</p>
-            <p className="text-4xl font-bold text-purple-600">5<span className="text-lg text-gray-400 ml-1">社</span></p>
-            <p className="text-xs text-gray-400 mt-2">キリンHD, GMOペパボ等</p>
-          </div>
-        </div>
-
-        {/* グラフエリア */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {/* 棒グラフ */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">業界別 事例数</h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={industryData} layout="vertical" margin={{ left: 20, right: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                <XAxis type="number" tick={{ fontSize: 12 }} />
-                <YAxis dataKey="name" type="category" width={140} tick={{ fontSize: 11 }} />
-                <Tooltip 
-                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
-                  formatter={(value) => [`${value}社`, '事例数']}
-                />
-                <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-                  {industryData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-
-          {/* 円グラフ */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">業界構成比</h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={industryData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={100}
-                  paddingAngle={2}
-                  dataKey="value"
-                  label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
-                  labelLine={false}
-                >
-                  {industryData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip 
-                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
-                  formatter={(value) => [`${value}社`, '事例数']}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-            {/* 凡例 */}
-            <div className="flex flex-wrap justify-center gap-2 mt-2">
-              {industryData.map((entry, index) => (
-                <div key={index} className="flex items-center text-xs">
-                  <div className="w-3 h-3 rounded-sm mr-1" style={{ backgroundColor: entry.color }}></div>
-                  <span className="text-gray-600">{entry.name}</span>
-                </div>
-              ))}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タイムトラッキング市場の概況</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+            background: #ffffff;
+            padding: 60px 40px;
+            color: #1a1a2e;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+        }
+        .header-left h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a2e;
+            position: relative;
+            padding-bottom: 12px;
+        }
+        .header-left h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: #1a1a2e;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #10b981;
+        }
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: white;
+        }
+        
+        /* Main Message */
+        .main-message {
+            margin-bottom: 40px;
+        }
+        .main-message p {
+            font-size: 18px;
+            font-weight: 500;
+            color: #374151;
+            line-height: 1.8;
+        }
+        .highlight {
+            color: #10b981;
+            font-weight: 700;
+            text-decoration: underline;
+            text-decoration-color: #10b981;
+            text-underline-offset: 4px;
+        }
+        
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 48px;
+            margin-bottom: 40px;
+        }
+        
+        /* Factors Section */
+        .factors-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 24px;
+        }
+        .factors-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .factor-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid #10b981;
+            transition: all 0.3s ease;
+        }
+        .factor-item:hover {
+            background: #f0fdf4;
+            transform: translateX(4px);
+        }
+        .factor-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .factor-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+        .factor-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        /* Chart Section */
+        .chart-section {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        }
+        .chart-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        /* Market Size Callout */
+        .market-callout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 20px 32px;
+            margin-bottom: 40px;
+        }
+        .market-callout-label {
+            font-size: 14px;
+            color: rgba(255,255,255,0.9);
+        }
+        .market-callout-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+        }
+        .market-callout-year {
+            font-size: 14px;
+            color: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        
+        /* Bottom Message */
+        .bottom-message {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border-radius: 12px;
+            padding: 24px 32px;
+            text-align: center;
+        }
+        .bottom-message p {
+            font-size: 20px;
+            font-weight: 700;
+            color: #065f46;
+        }
+        
+        /* Page Number */
+        .page-number {
+            position: fixed;
+            bottom: 20px;
+            right: 40px;
+            font-size: 14px;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <h1>タイムトラッキング市場の概況</h1>
             </div>
-          </div>
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/></svg>
+                </div>
+                TimeCrowd
+            </div>
         </div>
-
-        {/* 企業リスト */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4">公開事例 企業一覧</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-2 text-gray-500 font-medium">No.</th>
-                  <th className="text-left py-3 px-2 text-gray-500 font-medium">企業名</th>
-                  <th className="text-left py-3 px-2 text-gray-500 font-medium">業界</th>
-                  <th className="text-left py-3 px-2 text-gray-500 font-medium">規模</th>
-                </tr>
-              </thead>
-              <tbody>
-                {companies.map((company, index) => (
-                  <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="py-2 px-2 text-gray-400">{index + 1}</td>
-                    <td className="py-2 px-2 font-medium text-gray-800">{company.name}</td>
-                    <td className="py-2 px-2 text-gray-600">{company.industry}</td>
-                    <td className="py-2 px-2">
-                      <span className={`px-2 py-1 rounded-full text-xs ${
-                        company.type === '上場' ? 'bg-purple-100 text-purple-700' :
-                        company.type === '大手' ? 'bg-blue-100 text-blue-700' :
-                        company.type === '中堅' ? 'bg-green-100 text-green-700' :
-                        'bg-gray-100 text-gray-600'
-                      }`}>
-                        {company.type}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        
+        <!-- Main Message -->
+        <div class="main-message">
+            <p>従業員の生産性向上の必要性の高まりを受け、グローバル全体でタイムトラッキングの必要性が増加。<br>
+            2021年から2028年にかけ、<span class="highlight">市場規模は318億8000万ドルに達する</span>見込</p>
         </div>
-
-        {/* フッター */}
-        <div className="text-center text-gray-400 text-xs mt-6">
-          ※ 2025年11月時点の公開情報に基づく集計
+        
+        <!-- Market Size Callout -->
+        <div class="market-callout">
+            <span class="market-callout-label">グローバル市場規模</span>
+            <span class="market-callout-value">$31.88B</span>
+            <span class="market-callout-year">2028年予測</span>
         </div>
-      </div>
+        
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Left: Factors -->
+            <div class="factors-section">
+                <h3>アジア太平洋地域は下記要因にて市場をリード</h3>
+                <div class="factors-list">
+                    <div class="factor-item">
+                        <div class="factor-icon">
+                            <svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+                        </div>
+                        <span class="factor-text">革新的な製品の増加</span>
+                    </div>
+                    <div class="factor-item">
+                        <div class="factor-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                        </div>
+                        <span class="factor-text">原材料の豊富さの増加</span>
+                    </div>
+                    <div class="factor-item">
+                        <div class="factor-icon">
+                            <svg viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+                        </div>
+                        <span class="factor-text">消費技術の変化</span>
+                    </div>
+                    <div class="factor-item">
+                        <div class="factor-icon">
+                            <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                        </div>
+                        <span class="factor-text">人口の増加</span>
+                    </div>
+                    <div class="factor-item">
+                        <div class="factor-icon">
+                            <svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
+                        </div>
+                        <span class="factor-text">新興経済からの需要の増加</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right: Chart -->
+            <div class="chart-section">
+                <div class="chart-title">グローバル市場規模推移（2021-2028）</div>
+                <canvas id="marketChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Bottom Message -->
+        <div class="bottom-message">
+            <p>上記トレンドを受け、日本市場でもタイムトラッキングの普及が加速する見込み</p>
+        </div>
     </div>
-  );
-}
+    
+    <div class="page-number">7</div>
+
+    <script>
+        const ctx = document.getElementById('marketChart').getContext('2d');
+        
+        // Market data (illustrative growth pattern)
+        const data = {
+            labels: ['2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028'],
+            datasets: [
+                {
+                    label: 'North America',
+                    data: [4.2, 4.8, 5.5, 6.2, 7.0, 7.9, 8.8, 9.8],
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 4
+                },
+                {
+                    label: 'Europe',
+                    data: [3.5, 4.0, 4.5, 5.1, 5.7, 6.4, 7.1, 7.9],
+                    backgroundColor: '#f97316',
+                    borderRadius: 4
+                },
+                {
+                    label: 'Asia Pacific',
+                    data: [3.0, 3.6, 4.3, 5.1, 6.0, 7.0, 8.2, 9.5],
+                    backgroundColor: '#9ca3af',
+                    borderRadius: 4
+                },
+                {
+                    label: 'South America',
+                    data: [1.0, 1.2, 1.4, 1.6, 1.9, 2.2, 2.5, 2.9],
+                    backgroundColor: '#fbbf24',
+                    borderRadius: 4
+                },
+                {
+                    label: 'Middle East & Africa',
+                    data: [0.5, 0.6, 0.7, 0.8, 1.0, 1.2, 1.4, 1.7],
+                    backgroundColor: '#60a5fa',
+                    borderRadius: 4
+                }
+            ]
+        };
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 1.5,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 16,
+                            font: { size: 11 }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#1a1a2e',
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: (ctx) => ctx.dataset.label + ': $' + ctx.parsed.y.toFixed(1) + 'B'
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        grid: { display: false },
+                        ticks: { font: { size: 12 } }
+                    },
+                    y: {
+                        stacked: true,
+                        grid: { color: 'rgba(0,0,0,0.05)' },
+                        ticks: {
+                            font: { size: 11 },
+                            callback: (v) => '$' + v + 'B'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
